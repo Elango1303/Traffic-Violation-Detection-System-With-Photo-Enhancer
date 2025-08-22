@@ -124,18 +124,30 @@ class EnhancedImageTester:
         
         if model_type == 'RRDB':
             try:
-                # Try loading enhanced RRDB model
-                self.model = EnhancedGeneratorRRDB(in_nc=3, out_nc=3, nf=64, nb=23, upscale=self.upscale)
+                # Try loading enhanced RRDB model with correct parameters
+                self.model = EnhancedGeneratorRRDB(
+                    channels=3, 
+                    filters=64, 
+                    num_res_blocks=6,  # Match the training configuration
+                    num_upsample=2,    # For 4x upscaling
+                    use_attention=True
+                )
                 state_dict = torch.load(model_path, map_location=self.device)
                 self.model.load_state_dict(state_dict, strict=False)
-            except:
-                try:
-                    # Fallback to standard RRDB
-                    self.model = arch.RRDBNet(in_nc=3, out_nc=3, nf=64, nb=23)
-                    state_dict = torch.load(model_path, map_location=self.device)
-                    self.model.load_state_dict(state_dict, strict=False)
-                except Exception as e:
-                    print(f"Error loading model: {e}")
+                print("Enhanced RRDB model loaded successfully!")
+            except Exception as e:
+                print(f"Error loading enhanced model: {e}")
+                if arch is not None:
+                    try:
+                        # Fallback to standard RRDB if available
+                        self.model = arch.RRDBNet(in_nc=3, out_nc=3, nf=64, nb=23)
+                        state_dict = torch.load(model_path, map_location=self.device)
+                        self.model.load_state_dict(state_dict, strict=False)
+                        print("Standard RRDB model loaded successfully!")
+                    except Exception as e2:
+                        print(f"Error loading standard model: {e2}")
+                        return False
+                else:
                     return False
         
         self.model.to(self.device)

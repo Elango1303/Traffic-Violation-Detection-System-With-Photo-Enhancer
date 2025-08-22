@@ -286,9 +286,11 @@ def main():
                     gen_hr_ema = generator(imgs_lr)
                 ema.restore()
                 imgs_lr_denorm = denormalize(imgs_lr.clone())
+                # Upsample LR images to match HR dimensions for visualization
+                imgs_lr_upsampled = F.interpolate(imgs_lr_denorm, size=(opt.hr_height, opt.hr_width), mode='bicubic', align_corners=False)
                 gen_hr_ema_denorm = denormalize(gen_hr_ema.clone())
                 imgs_hr_denorm = denormalize(imgs_hr.clone())
-                img_sample = torch.cat((imgs_lr_denorm, gen_hr_ema_denorm, imgs_hr_denorm), -2)
+                img_sample = torch.cat((imgs_lr_upsampled, gen_hr_ema_denorm, imgs_hr_denorm), -2)
                 save_image(img_sample, os.path.join(BASE_DIR, "images", "training", f"{batches_done}.png"), nrow=1, normalize=True)
             if opt.checkpoint_interval != -1 and batches_done % opt.checkpoint_interval == 0:
                 torch.save(generator.state_dict(), os.path.join(BASE_DIR, "saved_models", f"generator_{batches_done}.pth"))

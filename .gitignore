@@ -1,0 +1,95 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyTorch
+*.pth
+*.pt
+*.pkl
+
+# Large datasets (keep small samples)
+photo_enhancement/data/img_align_celeba/
+photo_enhancement/data/DIV2K/
+photo_enhancement/data/*/
+!photo_enhancement/data/sample_dataset/
+
+# Model files (too large for git)
+photo_enhancement/saved_models/*.pth
+photo_enhancement/saved_models/*.pt
+!photo_enhancement/saved_models/.gitkeep
+
+# Generated results
+photo_enhancement/results/inference/
+photo_enhancement/results/evaluation/
+photo_enhancement/results/*.png
+photo_enhancement/results/*.jpg
+photo_enhancement/results/*.json
+!photo_enhancement/results/.gitkeep
+
+# Training outputs
+photo_enhancement/images/training/
+photo_enhancement/images/validation/
+!photo_enhancement/images/.gitkeep
+
+# Logs
+photo_enhancement/logs/
+*.log
+wandb/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# CUDA
+*.cu
+*.cuh
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp

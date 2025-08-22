@@ -1,0 +1,2 @@
+# This file keeps the images directory in git
+# Training and validation images will be stored here but are excluded from git
